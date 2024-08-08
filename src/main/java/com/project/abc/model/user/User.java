@@ -70,7 +70,7 @@ public class User {
         CUSTOMER
     }
 
-    public static User init(UserDTO dto){
+    public static User init(UserDTO dto) {
         User user = new User();
         user.setId(UUID.randomUUID().toString());
         user.setFullName(dto.getFullName());
@@ -83,7 +83,7 @@ public class User {
         return user;
     }
 
-    public static User initUpdate(UserUpdateDTO dto, User user){
+    public static User initUpdate(UserUpdateDTO dto, User user) {
         user.setFullName(dto.getFullName());
         user.setUserName(dto.getUserName());
         return user;

@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDto){
+    public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDto) {
         User user = userService.login(userDto);
         Session.setUser(user);
         UserDTO loginUserDTO = UserDTO.init(user);
@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping()
-    public ResponseEntity<UserDTO> userDetails(){
+    public ResponseEntity<UserDTO> userDetails() {
         User user = userService.getUserById(Session.getUser().getId());
         UserDTO userDTO = UserDTO.init(user);
         return ResponseEntity.ok(userDTO);
