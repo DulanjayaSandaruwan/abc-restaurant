@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 
 import com.project.abc.dto.user.UserDTO;
-import com.project.abc.dto.user.UserUpdateDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,9 +32,6 @@ public class User {
 
     @Column(name = "phone")
     private String phone;
-
-    @Column(name = "user_name")
-    private String userName;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
@@ -76,16 +72,9 @@ public class User {
         user.setFullName(dto.getFullName());
         user.setEmail(dto.getEmail());
         user.setPhone(dto.getPhone());
-        user.setUserName(dto.getUserName());
-        user.setPassword((dto.getPassword()));
+        user.setPassword(dto.getPassword());
         user.setStatus(User.UserStatus.ACTIVE);
         user.setRole(dto.getRole());
-        return user;
-    }
-
-    public static User initUpdate(UserUpdateDTO dto, User user) {
-        user.setFullName(dto.getFullName());
-        user.setUserName(dto.getUserName());
         return user;
     }
 }

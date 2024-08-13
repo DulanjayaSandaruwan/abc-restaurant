@@ -7,6 +7,7 @@ import com.project.abc.commons.exceptions.http.UnauthorizeException;
 import com.project.abc.commons.exceptions.http.UserNotFoundException;
 import com.project.abc.commons.exceptions.user.UserExType;
 import com.project.abc.dto.user.UserDTO;
+import com.project.abc.dto.user.UserUpdateDTO;
 import com.project.abc.model.user.User;
 import com.project.abc.repository.user.UserRepository;
 import javax.transaction.Transactional;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -28,7 +30,10 @@ public class UserService {
         log.info("create user email {}", dto.getEmail());
         User user = User.init(dto);
         if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw  new BadRequestException("email already exist", UserExType.EMAIL_ALREADY_EXIST);
+            throw new BadRequestException("email already exist", UserExType.EMAIL_ALREADY_EXIST);
+        }
+        if (userRepository.findByPhone(dto.getPhone()).isPresent()) {
+            throw new BadRequestException("phone already exist", UserExType.PHONE_ALREADY_EXIST);
         }
         user.setPassword(Hash.make(dto.getPassword()));
         user.setRole(dto.getRole());
@@ -62,29 +67,13 @@ public class UserService {
         return user;
     }
 
-//    public User updateUser(UserUpdateDTO updateDTO, String userId) {
-//        log.info("updated user id {}", userId);
-//        Optional<User> userOptional = userRepository.findById(userId);
-//        Check.throwIfEmpty(userOptional, new UserNotFoundException("user not found"));
-//        User user = userOptional.get();
-//        Optional<User> userName = userRepository.findFirstByUserName(updateDTO.getUserName());
-//        if (userName.isPresent()) {
-//            if (!updateDTO.getUserName().equals(user.getUserName())) {
-//                throw new BadRequestException("username already exist", UserExType.USERNAME_ALREADY_EXIST);
-//            }
-//        }
-//        user = User.initUpdate(updateDTO,user);
-//        user = userRepository.save(user);
-//        if(!updateDTO.getIntrest().isEmpty()){
-//            log.info("Add Interest. userid = {} ", userId);
-//            for (String interestIds : updateDTO.getIntrest()) {
-//                UserInterest userInterest = new UserInterest();
-//                userInterest.setId(UUID.randomUUID().toString());
-//                userInterest.setInterestId(interestIds);
-//                userInterest.setUser(user);
-//                interestRepository.save(userInterest);
-//            }
-//        }
-//        return user;
-//    }
+    public User updateUser(UserUpdateDTO updateDTO, String userId) {
+        log.info("updated user id {}", userId);
+        User user = this.getUserById(userId);
+        user.setFullName(updateDTO.getFullName());
+        user.setEmail(updateDTO.getEmail());
+        user.setPhone(updateDTO.getPhone());
+        user = userRepository.save(user);
+        return user;
+    }
 }

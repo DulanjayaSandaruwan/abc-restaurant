@@ -17,7 +17,6 @@ public class UserDetailDTO {
 
     public static UserDetailDTO init(User user) {
         UserDetailDTO userDetailDTO = new UserDetailDTO();
-        userDetailDTO.setUserName(user.getUserName());
         userDetailDTO.setFullName(user.getFullName());
         userDetailDTO.setEmail(user.getEmail());
         userDetailDTO.setPhone(user.getPhone());

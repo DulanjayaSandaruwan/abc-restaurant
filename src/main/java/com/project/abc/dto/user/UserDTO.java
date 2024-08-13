@@ -28,9 +28,6 @@ public class UserDTO extends BaseRequest {
     @Size(max = 15, min = 3, message = "phone length should be more than 3 and less than 15")
     private String phone;
 
-    @Size(max = 30, min = 5, message = "Username length should be more than 1 and less than 40")
-    private String userName;
-
     @Size(max = 100, min = 6, message = "Password length should be between 6 and 100")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$", message = "The password is not strong")
     @NotBlank(message = "Password is mandatory")
@@ -47,7 +44,6 @@ public class UserDTO extends BaseRequest {
         userDTO.setFullName(user.getFullName());
         userDTO.setEmail(user.getEmail());
         userDTO.setPhone(user.getPhone());
-        userDTO.setUserName(user.getUserName());
         userDTO.setStatus(user.getStatus());
         userDTO.setRole(user.getRole());
         return userDTO;
