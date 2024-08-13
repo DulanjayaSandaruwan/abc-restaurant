@@ -24,7 +24,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-
     public User createUser(UserDTO dto) {
         log.info("create user email {}", dto.getEmail());
         User user = User.init(dto);
