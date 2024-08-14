@@ -1,6 +1,7 @@
 package com.project.abc.dto.item;
 
 import com.project.abc.commons.BaseRequest;
+import com.project.abc.dto.category.CategoryDTO;
 import com.project.abc.model.item.Item;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +15,8 @@ import javax.validation.constraints.*;
 public class ItemDTO extends BaseRequest {
     private String id;
 
-    @Size(max = 40, min = 3, message = "Full name length should be more than 3 and less than 40")
-    @NotBlank(message = "Full name is mandatory")
+    @Size(max = 40, min = 3, message = "Item name length should be more than 3 and less than 40")
+    @NotBlank(message = "Item name is mandatory")
     private String itemName;
 
     @Size(max = 200, min = 5, message = "Description length should be more than 5 and less than 200")
@@ -34,6 +35,8 @@ public class ItemDTO extends BaseRequest {
 
     private Item.ItemStatus status;
 
+    private CategoryDTO category;
+
     public static ItemDTO init(Item item) {
         ItemDTO itemDTO = new ItemDTO();
         itemDTO.setId(item.getId());
@@ -43,6 +46,12 @@ public class ItemDTO extends BaseRequest {
         itemDTO.setQtyOnHand(item.getQtyOnHand());
         itemDTO.setDiscountPercentage(item.getDiscountPercentage());
         itemDTO.setStatus(item.getStatus());
+        return itemDTO;
+    }
+
+    public static ItemDTO initWithCategory(Item item) {
+        ItemDTO itemDTO = ItemDTO.init(item);
+        itemDTO.setCategory(CategoryDTO.init(item.getCategory()));
         return itemDTO;
     }
 

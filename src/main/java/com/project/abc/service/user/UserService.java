@@ -32,10 +32,10 @@ public class UserService {
     public User registerUser(UserDTO dto) {
         log.info("create user email {}", dto.getEmail());
         User user = User.init(dto);
-        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
+        if (userRepository.findByEmailAndStatusNot(dto.getEmail() , User.UserStatus.DELETED).isPresent()) {
             throw new BadRequestException("email already exist", UserExType.EMAIL_ALREADY_EXIST);
         }
-        if (userRepository.findByPhone(dto.getPhone()).isPresent()) {
+        if (userRepository.findByPhoneAndStatusNot(dto.getPhone(), User.UserStatus.DELETED).isPresent()) {
             throw new BadRequestException("phone already exist", UserExType.PHONE_ALREADY_EXIST);
         }
         user.setPassword(Hash.make(dto.getPassword()));
@@ -77,10 +77,10 @@ public class UserService {
     public User updateUser(UserUpdateDTO updateDTO, String userId) {
         log.info("updated user id {}", userId);
         User user = this.getUserById(userId);
-        if (userRepository.findByEmail(updateDTO.getEmail()).isPresent()) {
+        if (userRepository.findByEmailAndStatusNot(updateDTO.getEmail() , User.UserStatus.DELETED).isPresent()) {
             throw new BadRequestException("email already exist", UserExType.EMAIL_ALREADY_EXIST);
         }
-        if (userRepository.findByPhone(updateDTO.getPhone()).isPresent()) {
+        if (userRepository.findByPhoneAndStatusNot(updateDTO.getPhone(), User.UserStatus.DELETED).isPresent()) {
             throw new BadRequestException("phone already exist", UserExType.PHONE_ALREADY_EXIST);
         }
         user.setFullName(updateDTO.getFullName());

@@ -15,7 +15,9 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     Optional<User> findByEmail(String email);
 
-    Optional<User> findByPhone(String phone);
+    Optional<User> findByEmailAndStatusNot(String email, User.UserStatus status);
+
+    Optional<User> findByPhoneAndStatusNot(String phone, User.UserStatus status);
 
     @Query("SELECT u FROM user u WHERE (:fullName IS NULL OR u.fullName LIKE %:fullName%) " +
             "AND (:email IS NULL OR u.email LIKE %:email%) " +

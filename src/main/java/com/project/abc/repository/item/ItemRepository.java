@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, String> {
 
-    Optional<Item> findByItemName(String itemName);
+    Optional<Item> findByItemNameAndStatusNot(String itemName, Item.ItemStatus status);
 
     @Query("SELECT i FROM item i WHERE (:itemName IS NULL OR i.itemName LIKE %:itemName%) " +
             "AND (:description IS NULL OR i.description LIKE %:description%) " +

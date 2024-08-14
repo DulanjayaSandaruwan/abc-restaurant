@@ -2,12 +2,15 @@ package com.project.abc.service.item;
 
 import com.project.abc.commons.Check;
 import com.project.abc.commons.exceptions.http.BadRequestException;
+import com.project.abc.commons.exceptions.http.CategoryNotFoundException;
 import com.project.abc.commons.exceptions.http.ItemNotFoundException;
 import com.project.abc.commons.exceptions.item.ItemExType;
 import com.project.abc.dto.item.ItemDTO;
 import com.project.abc.dto.item.ItemSearchParamDTO;
 import com.project.abc.dto.item.ItemUpdateDTO;
+import com.project.abc.model.category.Category;
 import com.project.abc.model.item.Item;
+import com.project.abc.repository.category.CategoryRepository;
 import com.project.abc.repository.item.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +30,17 @@ public class ItemService {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     public Item createItem(ItemDTO itemDTO) {
         log.info("create item {}", itemDTO.getItemName());
-        if (itemRepository.findByItemName(itemDTO.getItemName()).isPresent()) {
+        if (itemRepository.findByItemNameAndStatusNot(itemDTO.getItemName(), Item.ItemStatus.DELETED).isPresent()) {
             throw new BadRequestException("item already exist", ItemExType.ITEM_ALREADY_EXIST);
         }
-        Item item = Item.init(itemDTO);
+        Optional<Category> category = categoryRepository.findById(itemDTO.getCategory().getId());
+        Check.throwIfEmpty(category, new CategoryNotFoundException("Category not found with Id : " + itemDTO.getCategory().getId()));
+        Item item = Item.initWithCategory(itemDTO, category.get());
         return itemRepository.save(item);
     }
 
@@ -47,6 +55,9 @@ public class ItemService {
     public Item updateItem(ItemUpdateDTO itemUpdateDTO, String itemId) {
         log.info("updated item id {}", itemId);
         Item item = this.getItemById(itemId);
+        if (itemRepository.findByItemNameAndStatusNot(itemUpdateDTO.getItemName(), Item.ItemStatus.DELETED).isPresent()) {
+            throw new BadRequestException("item already exist", ItemExType.ITEM_ALREADY_EXIST);
+        }
         item.setItemName(itemUpdateDTO.getItemName());
         item.setDescription(itemUpdateDTO.getDescription());
         item.setUnitPrice(itemUpdateDTO.getUnitPrice());
@@ -66,5 +77,16 @@ public class ItemService {
                 searchParams.getMinPrice(),
                 pageable
         );
+    }
+
+    public Item deleteItem(String itemId) {
+        log.info("delete. item id={}", itemId);
+        Item item = getItemById(itemId);
+        if (item.getStatus() == Item.ItemStatus.DELETED) {
+            throw new BadRequestException(itemId + " is already deleted");
+        } else {
+            item.setStatus(Item.ItemStatus.DELETED);
+        }
+        return itemRepository.save(item);
     }
 }

@@ -28,14 +28,14 @@ public class ItemController {
     public ResponseEntity<ItemDTO> createItem(@RequestBody ItemDTO itemDTO) {
         itemDTO.validate();
         Item item = itemService.createItem(itemDTO);
-        ItemDTO createItemDTO = ItemDTO.init(item);
+        ItemDTO createItemDTO = ItemDTO.initWithCategory(item);
         return ResponseEntity.ok(createItemDTO);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ItemDTO> getItemById(@PathVariable String id) {
         Item item = itemService.getItemById(id);
-        ItemDTO itemDTO = ItemDTO.init(item);
+        ItemDTO itemDTO = ItemDTO.initWithCategory(item);
         return ResponseEntity.ok(itemDTO);
     }
 
@@ -46,7 +46,7 @@ public class ItemController {
     ) {
         itemUpdateDTO.validate();
         Item item = itemService.updateItem(itemUpdateDTO, id);
-        ItemDTO itemDTO = ItemDTO.init(item);
+        ItemDTO itemDTO = ItemDTO.initWithCategory(item);
         return ResponseEntity.ok(itemDTO);
     }
 
@@ -71,7 +71,7 @@ public class ItemController {
 
         Page<Item> itemsPage = itemService.getAllItems(searchParams);
         List<ItemDTO> itemDTOs = itemsPage.getContent().stream()
-                .map(ItemDTO::init)
+                .map(ItemDTO::initWithCategory)
                 .collect(Collectors.toList());
         Page<ItemDTO> itemDTOPage = new PageImpl<>(
                 itemDTOs,
@@ -79,5 +79,11 @@ public class ItemController {
                 itemsPage.getTotalElements()
         );
         return ResponseEntity.ok(itemDTOPage);
+    }
+
+    @DeleteMapping("/delete/{itemId}")
+    public ResponseEntity<ItemDTO> deleteItem(@PathVariable String itemId) {
+        Item item = itemService.deleteItem(itemId);
+        return ResponseEntity.ok(ItemDTO.initWithCategory(item));
     }
 }

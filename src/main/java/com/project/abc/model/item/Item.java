@@ -3,6 +3,7 @@ package com.project.abc.model.item;
 import javax.persistence.*;
 
 import com.project.abc.dto.item.ItemDTO;
+import com.project.abc.model.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,6 +43,10 @@ public class Item {
     @Enumerated(EnumType.STRING)
     private ItemStatus status;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false,updatable = false)
     private Instant createdAt;
@@ -52,7 +57,8 @@ public class Item {
 
     public enum ItemStatus {
         ACTIVE,
-        INACTIVE
+        INACTIVE,
+        DELETED
     }
 
     public static Item init(ItemDTO dto) {
@@ -64,6 +70,12 @@ public class Item {
         item.setQtyOnHand(dto.getQtyOnHand());
         item.setDiscountPercentage(dto.getDiscountPercentage());
         item.setStatus(ItemStatus.ACTIVE);
+        return item;
+    }
+
+    public static Item initWithCategory(ItemDTO dto, Category category) {
+        Item item = Item.init(dto);
+        item.setCategory(category);
         return item;
     }
 }
