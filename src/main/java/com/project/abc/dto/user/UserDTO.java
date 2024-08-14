@@ -37,7 +37,6 @@ public class UserDTO extends BaseRequest {
 
     private User.UserRole role;
 
-
     public static UserDTO init(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());

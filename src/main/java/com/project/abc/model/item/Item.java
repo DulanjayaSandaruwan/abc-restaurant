@@ -30,13 +30,13 @@ public class Item {
     private String description;
 
     @Column(name = "unit_price")
-    private double unitPrice;
+    private Double unitPrice;
 
     @Column(name = "qty_on_hand")
     private int qtyOnHand;
 
     @Column(name = "is_discount")
-    private double discountPercentage;
+    private Double discountPercentage;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)

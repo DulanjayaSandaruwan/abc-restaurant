@@ -1,7 +1,6 @@
 package com.project.abc.dto.item;
 
 import com.project.abc.commons.BaseRequest;
-import com.project.abc.model.item.Item;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +10,7 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 @Slf4j
-public class ItemDTO extends BaseRequest {
-    private String id;
-
+public class ItemUpdateDTO extends BaseRequest {
     @Size(max = 40, min = 3, message = "Full name length should be more than 3 and less than 40")
     @NotBlank(message = "Full name is mandatory")
     private String itemName;
@@ -31,19 +28,4 @@ public class ItemDTO extends BaseRequest {
     @DecimalMin(value = "0.0", inclusive = false, message = "Discount percentage must be greater than or equal to 0")
     @DecimalMax(value = "100.0", inclusive = true, message = "Discount percentage must be less than or equal to 100")
     private Double discountPercentage;
-
-    private Item.ItemStatus status;
-
-    public static ItemDTO init(Item item) {
-        ItemDTO itemDTO = new ItemDTO();
-        itemDTO.setId(item.getId());
-        itemDTO.setItemName(item.getItemName());
-        itemDTO.setDescription(item.getDescription());
-        itemDTO.setUnitPrice(item.getUnitPrice());
-        itemDTO.setQtyOnHand(item.getQtyOnHand());
-        itemDTO.setDiscountPercentage(item.getDiscountPercentage());
-        itemDTO.setStatus(item.getStatus());
-        return itemDTO;
-    }
-
 }
