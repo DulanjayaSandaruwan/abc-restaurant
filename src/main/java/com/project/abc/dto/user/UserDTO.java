@@ -49,11 +49,4 @@ public class UserDTO extends BaseRequest {
         return userDTO;
     }
 
-    public static UserDTO initWithBasicDetails(User user) {
-        UserDTO userDto = new UserDTO();
-        userDto.setId(user.getId());
-        userDto.setFullName(user.getFullName());
-        return userDto;
-    }
-
 }

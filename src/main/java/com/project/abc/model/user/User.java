@@ -57,7 +57,8 @@ public class User {
         ACTIVE,
         INACTIVE,
         PENDING_VERIFICATION,
-        TO_DELETE, DELETED
+        TO_DELETE,
+        DELETED
     }
 
     public enum UserRole {
