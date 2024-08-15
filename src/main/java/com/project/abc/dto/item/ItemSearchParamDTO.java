@@ -10,10 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ItemSearchParamDTO {
     private String itemName;
-    private String description;
     private Item.ItemStatus status;
     private Double minPrice;
     private Double maxPrice;
+    private String categoryName;
     private int page;
     private int size;
 }

@@ -71,10 +71,10 @@ public class ItemService {
         Pageable pageable = PageRequest.of(searchParams.getPage(), searchParams.getSize());
         return itemRepository.findItems(
                 searchParams.getItemName(),
-                searchParams.getDescription(),
                 searchParams.getStatus(),
                 searchParams.getMaxPrice(),
                 searchParams.getMinPrice(),
+                searchParams.getCategoryName(),
                 pageable
         );
     }

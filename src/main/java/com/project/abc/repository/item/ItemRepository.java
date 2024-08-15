@@ -15,17 +15,20 @@ public interface ItemRepository extends JpaRepository<Item, String> {
 
     Optional<Item> findByItemNameAndStatusNot(String itemName, Item.ItemStatus status);
 
-    @Query("SELECT i FROM item i WHERE (:itemName IS NULL OR i.itemName LIKE %:itemName%) " +
-            "AND (:description IS NULL OR i.description LIKE %:description%) " +
+    @Query("SELECT i FROM item i " +
+            "JOIN i.category c " +
+            "WHERE (:itemName IS NULL OR i.itemName LIKE %:itemName%) " +
             "AND (:status IS NULL OR i.status = :status) " +
             "AND (:minPrice IS NULL OR i.unitPrice >= :minPrice) " +
-            "AND (:maxPrice IS NULL OR i.unitPrice <= :maxPrice)")
+            "AND (:maxPrice IS NULL OR i.unitPrice <= :maxPrice) " +
+            "AND (:categoryName IS NULL OR c.categoryName = :categoryName)")
     Page<Item> findItems(
             @Param("itemName") String itemName,
-            @Param("description") String description,
             @Param("status") Item.ItemStatus status,
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice,
+            @Param("categoryName") String categoryName,
             Pageable pageable
     );
+
 }

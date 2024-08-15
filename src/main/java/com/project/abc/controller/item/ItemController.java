@@ -40,7 +40,7 @@ public class ItemController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ItemDTO> updateUser(
+    public ResponseEntity<ItemDTO> updateItem(
             @RequestBody ItemUpdateDTO itemUpdateDTO,
             @PathVariable String id
     ) {
@@ -53,19 +53,19 @@ public class ItemController {
     @GetMapping("/items")
     public ResponseEntity<Page<ItemDTO>> getAllItems(
             @RequestParam(value = "itemName", required = false) String itemName,
-            @RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "status", required = false) Item.ItemStatus status,
             @RequestParam(value = "minPrice", required = false) Double minPrice,
             @RequestParam(value = "maxPrice", required = false) Double maxPrice,
+            @RequestParam(value = "categoryName", required = false) String categoryName,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
         ItemSearchParamDTO searchParams = new ItemSearchParamDTO();
         searchParams.setItemName(itemName);
-        searchParams.setDescription(description);
         searchParams.setStatus(status);
         searchParams.setMinPrice(minPrice);
         searchParams.setMaxPrice(maxPrice);
+        searchParams.setCategoryName(categoryName);
         searchParams.setPage(page);
         searchParams.setSize(size);
 
