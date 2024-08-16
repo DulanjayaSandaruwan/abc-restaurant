@@ -6,6 +6,7 @@ import com.project.abc.commons.exceptions.http.CategoryNotFoundException;
 import com.project.abc.commons.exceptions.http.ItemNotFoundException;
 import com.project.abc.commons.exceptions.item.ItemExType;
 import com.project.abc.dto.item.ItemDTO;
+import com.project.abc.dto.item.ItemRateDTO;
 import com.project.abc.dto.item.ItemSearchParamDTO;
 import com.project.abc.dto.item.ItemUpdateDTO;
 import com.project.abc.model.category.Category;
@@ -88,5 +89,13 @@ public class ItemService {
             item.setStatus(Item.ItemStatus.DELETED);
         }
         return itemRepository.save(item);
+    }
+
+    public Item updateItemRate(ItemRateDTO itemRateDTO, String itemId) {
+        log.info("updated item rate id {}", itemId);
+        Item item = this.getItemById(itemId);
+        item.setRate(itemRateDTO.getRate());
+        item = itemRepository.save(item);
+        return item;
     }
 }

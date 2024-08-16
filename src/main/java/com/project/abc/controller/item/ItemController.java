@@ -1,6 +1,7 @@
 package com.project.abc.controller.item;
 
 import com.project.abc.dto.item.ItemDTO;
+import com.project.abc.dto.item.ItemRateDTO;
 import com.project.abc.dto.item.ItemSearchParamDTO;
 import com.project.abc.dto.item.ItemUpdateDTO;
 import com.project.abc.model.item.Item;
@@ -85,5 +86,16 @@ public class ItemController {
     public ResponseEntity<ItemDTO> deleteItem(@PathVariable String itemId) {
         Item item = itemService.deleteItem(itemId);
         return ResponseEntity.ok(ItemDTO.initWithCategory(item));
+    }
+
+    @PutMapping("/rate/{id}")
+    public ResponseEntity<ItemDTO> updateItemRate(
+            @RequestBody ItemRateDTO itemRateDTO,
+            @PathVariable String id
+    ) {
+        itemRateDTO.validate();
+        Item item = itemService.updateItemRate(itemRateDTO, id);
+        ItemDTO itemDTO = ItemDTO.initWithCategory(item);
+        return ResponseEntity.ok(itemDTO);
     }
 }

@@ -23,6 +23,8 @@ public class ItemDTO extends BaseRequest {
     @NotBlank(message = "Full name is mandatory")
     private String description;
 
+    private int rate;
+
     @DecimalMin(value = "0.0", inclusive = false, message = "Unit price must be greater than zero")
     private Double unitPrice;
 
@@ -42,6 +44,7 @@ public class ItemDTO extends BaseRequest {
         itemDTO.setId(item.getId());
         itemDTO.setItemName(item.getItemName());
         itemDTO.setDescription(item.getDescription());
+        itemDTO.setRate(item.getRate());
         itemDTO.setUnitPrice(item.getUnitPrice());
         itemDTO.setQtyOnHand(item.getQtyOnHand());
         itemDTO.setDiscountPercentage(item.getDiscountPercentage());

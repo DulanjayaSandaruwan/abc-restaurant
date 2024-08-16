@@ -30,6 +30,9 @@ public class Item {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Column(name = "rate")
+    private int rate;
+
     @Column(name = "unit_price")
     private Double unitPrice;
 
@@ -66,6 +69,7 @@ public class Item {
         item.setId(UUID.randomUUID().toString());
         item.setItemName(dto.getItemName());
         item.setDescription(dto.getDescription());
+        item.setRate(dto.getRate());
         item.setUnitPrice(dto.getUnitPrice());
         item.setQtyOnHand(dto.getQtyOnHand());
         item.setDiscountPercentage(dto.getDiscountPercentage());
