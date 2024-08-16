@@ -61,9 +61,14 @@ public class OfferController {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<Offer> offersPage = offerService.getAllOffers(searchParams);
+
         List<OfferDTO> offerDTOs = offersPage.getContent().stream()
-                .map(OfferDTO::init)
+                .map(offer -> {
+                    List<OfferDetail> offerDetails = offerDetailService.getOfferDetailsByOfferId(offer.getId());
+                    return OfferDTO.initWithOfferDetails(offer, offerDetails);
+                })
                 .collect(Collectors.toList());
+
         Page<OfferDTO> offerDTOPage = new PageImpl<>(
                 offerDTOs,
                 pageable,
