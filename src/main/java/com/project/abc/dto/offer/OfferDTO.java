@@ -37,13 +37,7 @@ public class OfferDTO {
 
     private Instant endDate;
 
-    private List<ItemDetailDTO> items;
-
-    @Getter
-    @Setter
-    public static class ItemDetailDTO {
-        private String itemId;
-    }
+    private List<ItemDTO> items;
 
     public static OfferDTO init(Offer offer) {
         OfferDTO offerDTO = new OfferDTO();
@@ -62,11 +56,11 @@ public class OfferDTO {
             offerDTO.setStartDate(firstOfferDetail.getStartDate());
             offerDTO.setEndDate(firstOfferDetail.getEndDate());
         }
-        List<ItemDetailDTO> itemDTOs = offerDetails.stream()
+        List<ItemDTO> itemDTOs = offerDetails.stream()
                 .map(offerDetail -> {
-                    ItemDetailDTO itemDetailDTO = new ItemDetailDTO();
-                    itemDetailDTO.setItemId(offerDetail.getItemId());
-                    return itemDetailDTO;
+                    ItemDTO itemDTO = ItemDTO.initWithCategory(offerDetail.getItem());;
+                    itemDTO.setId(offerDetail.getItemId());
+                    return itemDTO;
                 })
                 .collect(Collectors.toList());
         offerDTO.setItems(itemDTOs);

@@ -4,6 +4,7 @@ import com.project.abc.commons.exceptions.category.CategoryExType;
 import com.project.abc.commons.exceptions.http.BadRequestException;
 import com.project.abc.commons.exceptions.offer.OfferExType;
 import com.project.abc.commons.exceptions.user.UserExType;
+import com.project.abc.dto.item.ItemDTO;
 import com.project.abc.dto.offer.OfferDTO;
 import com.project.abc.dto.offer.OfferSearchParamDTO;
 import com.project.abc.model.category.Category;
@@ -48,9 +49,9 @@ public class OfferService {
         }
         offerRepository.save(offer);
 
-        List<OfferDTO.ItemDetailDTO> items = offerDTO.getItems();
-        for (OfferDTO.ItemDetailDTO itemDTO : items) {
-            Item item = itemService.getItemById(itemDTO.getItemId());
+        List<ItemDTO> items = offerDTO.getItems();
+        for (ItemDTO itemDTO : items) {
+            Item item = itemService.getItemById(itemDTO.getId());
 
             OfferDetail offerDetail = new OfferDetail();
             offerDetail.setId(UUID.randomUUID().toString());
