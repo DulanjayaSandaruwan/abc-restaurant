@@ -5,6 +5,7 @@ import com.project.abc.commons.exceptions.http.BadRequestException;
 import com.project.abc.commons.exceptions.offer.OfferExType;
 import com.project.abc.commons.exceptions.user.UserExType;
 import com.project.abc.dto.offer.OfferDTO;
+import com.project.abc.dto.offer.OfferSearchParamDTO;
 import com.project.abc.model.category.Category;
 import com.project.abc.model.item.Item;
 import com.project.abc.model.offer.Offer;
@@ -15,6 +16,9 @@ import com.project.abc.repository.offer.OfferRepository;
 import com.project.abc.service.item.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -62,4 +66,17 @@ public class OfferService {
         return offer;
     }
 
+    public Page<Offer> getAllOffers(OfferSearchParamDTO searchDTO) {
+        log.info("get all offers");
+        Pageable pageable = PageRequest.of(searchDTO.getPage(), searchDTO.getSize());
+        return offerRepository.searchOffers(
+                searchDTO.getOfferName(),
+                searchDTO.getMinUnitPrice(),
+                searchDTO.getMaxUnitPrice(),
+                searchDTO.getStatus(),
+                searchDTO.getStartDate(),
+                searchDTO.getEndDate(),
+                pageable
+        );
+    }
 }

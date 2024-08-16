@@ -66,6 +66,7 @@ public class CategoryService {
     }
 
     public Page<Category> getAllCategories(CategorySearchParamDTO searchParams) {
+        log.info("get all categories");
         Pageable pageable = PageRequest.of(searchParams.getPage(), searchParams.getSize());
         return categoryRepository.findCategories(
                 searchParams.getCategoryName(),

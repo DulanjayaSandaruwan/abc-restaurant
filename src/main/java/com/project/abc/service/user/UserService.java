@@ -102,6 +102,7 @@ public class UserService {
     }
 
     public Page<User> getAllCustomers(UserSearchParamDTO searchParams) {
+        log.info("get all users");
         Pageable pageable = PageRequest.of(searchParams.getPage(), searchParams.getSize());
         return userRepository.findAllUsers(
                 searchParams.getName(),

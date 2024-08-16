@@ -69,6 +69,7 @@ public class ItemService {
     }
 
     public Page<Item> getAllItems(ItemSearchParamDTO searchParams) {
+        log.info("get all items");
         Pageable pageable = PageRequest.of(searchParams.getPage(), searchParams.getSize());
         return itemRepository.findItems(
                 searchParams.getItemName(),
