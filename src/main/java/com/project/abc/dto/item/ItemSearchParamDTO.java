@@ -14,6 +14,7 @@ public class ItemSearchParamDTO {
     private Double minPrice;
     private Double maxPrice;
     private String categoryName;
+    private Integer rate;
     private int page;
     private int size;
 }

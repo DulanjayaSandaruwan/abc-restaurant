@@ -76,6 +76,7 @@ public class ItemService {
                 searchParams.getMaxPrice(),
                 searchParams.getMinPrice(),
                 searchParams.getCategoryName(),
+                searchParams.getRate(),
                 pageable
         );
     }

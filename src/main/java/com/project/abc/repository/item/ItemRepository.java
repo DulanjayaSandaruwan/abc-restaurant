@@ -21,13 +21,15 @@ public interface ItemRepository extends JpaRepository<Item, String> {
             "AND (:status IS NULL OR i.status = :status) " +
             "AND (:minPrice IS NULL OR i.unitPrice >= :minPrice) " +
             "AND (:maxPrice IS NULL OR i.unitPrice <= :maxPrice) " +
-            "AND (:categoryName IS NULL OR c.categoryName = :categoryName)")
+            "AND (:categoryName IS NULL OR c.categoryName = :categoryName)" +
+            "AND (:rate IS NULL OR i.rate = :rate)")
     Page<Item> findItems(
             @Param("itemName") String itemName,
             @Param("status") Item.ItemStatus status,
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice,
             @Param("categoryName") String categoryName,
+            @Param("rate") Integer rate,
             Pageable pageable
     );
 

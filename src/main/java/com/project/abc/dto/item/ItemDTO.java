@@ -20,7 +20,7 @@ public class ItemDTO extends BaseRequest {
     private String itemName;
 
     @Size(max = 200, min = 5, message = "Description length should be more than 5 and less than 200")
-    @NotBlank(message = "Full name is mandatory")
+    @NotBlank(message = "Description is mandatory")
     private String description;
 
     private int rate;

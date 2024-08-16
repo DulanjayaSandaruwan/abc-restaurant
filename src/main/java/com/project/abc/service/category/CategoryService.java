@@ -31,7 +31,7 @@ public class CategoryService {
         log.info("create category name {}", dto.getCategoryName());
         Category category = Category.init(dto);
         if (categoryRepository.findByCategoryNameAndStatusNot(dto.getCategoryName() , Category.CategoryStatus.DELETED).isPresent()) {
-            throw new BadRequestException("email already exist", UserExType.EMAIL_ALREADY_EXIST);
+            throw new BadRequestException("category already exist", UserExType.EMAIL_ALREADY_EXIST);
         }
         return categoryRepository.save(category);
     }

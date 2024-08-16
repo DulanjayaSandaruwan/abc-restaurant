@@ -11,12 +11,12 @@ import javax.validation.constraints.*;
 @Setter
 @Slf4j
 public class ItemUpdateDTO extends BaseRequest {
-    @Size(max = 40, min = 3, message = "Full name length should be more than 3 and less than 40")
-    @NotBlank(message = "Full name is mandatory")
+    @Size(max = 40, min = 3, message = "Item name length should be more than 3 and less than 40")
+    @NotBlank(message = "Item name is mandatory")
     private String itemName;
 
     @Size(max = 200, min = 5, message = "Description length should be more than 5 and less than 200")
-    @NotBlank(message = "Full name is mandatory")
+    @NotBlank(message = "Description name is mandatory")
     private String description;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "Unit price must be greater than zero")

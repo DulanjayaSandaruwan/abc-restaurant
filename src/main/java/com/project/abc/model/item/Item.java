@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import com.project.abc.dto.item.ItemDTO;
 import com.project.abc.model.category.Category;
+import com.project.abc.model.offer.OfferDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -57,6 +59,9 @@ public class Item {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
+
+    @OneToMany(mappedBy = "item")
+    private Set<OfferDetail> offerDetails;
 
     public enum ItemStatus {
         ACTIVE,
