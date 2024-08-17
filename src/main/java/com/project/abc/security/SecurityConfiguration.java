@@ -18,11 +18,10 @@ import java.util.List;
 @Slf4j
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private static final List<String> PERMIT_URL = List.of("/user/login",
+    private static final List<String> PERMIT_URL = List.of(
+            "/user/login",
             "/user/register",
-            "/health/status",
-            "/user/{type}/image-url/{userId}/image",
-            "/story/story-url/{attachmentId}/story"
+            "/health/status"
     );
 
     public static List<String> ACTIVATION_NOT_REQUIRED_URLS = List.of();
