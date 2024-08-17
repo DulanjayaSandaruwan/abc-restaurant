@@ -11,6 +11,8 @@ public class UserDetailDTO {
 
     private String email;
 
+    private String address;
+
     private String phone;
 
     private User.UserRole userRole;
@@ -21,6 +23,7 @@ public class UserDetailDTO {
         UserDetailDTO userDetailDTO = new UserDetailDTO();
         userDetailDTO.setFullName(user.getFullName());
         userDetailDTO.setEmail(user.getEmail());
+        userDetailDTO.setAddress(user.getAddress());
         userDetailDTO.setPhone(user.getPhone());
         userDetailDTO.setUserRole(user.getRole());
         userDetailDTO.setUserStatus(user.getStatus());

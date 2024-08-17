@@ -25,6 +25,10 @@ public class UserDTO extends BaseRequest {
     @NotBlank(message = "Email is mandatory")
     private String email;
 
+    @Size(max = 255, min = 10, message = "Address length should be between 10 and 255 characters")
+    @NotBlank(message = "Address is mandatory")
+    private String address;
+
     @Size(max = 15, min = 3, message = "phone length should be more than 3 and less than 15")
     private String phone;
 
@@ -42,6 +46,7 @@ public class UserDTO extends BaseRequest {
         userDTO.setId(user.getId());
         userDTO.setFullName(user.getFullName());
         userDTO.setEmail(user.getEmail());
+        userDTO.setAddress(user.getAddress());
         userDTO.setPhone(user.getPhone());
         userDTO.setStatus(user.getStatus());
         userDTO.setRole(user.getRole());

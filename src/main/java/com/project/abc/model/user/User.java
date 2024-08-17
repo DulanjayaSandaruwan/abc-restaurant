@@ -33,6 +33,9 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "address")
+    private String address;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
@@ -72,6 +75,7 @@ public class User {
         user.setId(UUID.randomUUID().toString());
         user.setFullName(dto.getFullName());
         user.setEmail(dto.getEmail());
+        user.setAddress(dto.getAddress());
         user.setPhone(dto.getPhone());
         user.setPassword(dto.getPassword());
         user.setStatus(User.UserStatus.ACTIVE);
