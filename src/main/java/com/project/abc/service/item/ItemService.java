@@ -62,7 +62,6 @@ public class ItemService {
         item.setItemName(itemUpdateDTO.getItemName());
         item.setDescription(itemUpdateDTO.getDescription());
         item.setUnitPrice(itemUpdateDTO.getUnitPrice());
-        item.setQtyOnHand(itemUpdateDTO.getQtyOnHand());
         item.setDiscountPercentage(itemUpdateDTO.getDiscountPercentage());
         item = itemRepository.save(item);
         return item;
@@ -99,9 +98,5 @@ public class ItemService {
         item.setRate(itemRateDTO.getRate());
         item = itemRepository.save(item);
         return item;
-    }
-
-    public void reduceQtyOnHand(Item item) {
-        itemRepository.save(item);
     }
 }

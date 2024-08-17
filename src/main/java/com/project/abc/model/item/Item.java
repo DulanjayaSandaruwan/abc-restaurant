@@ -38,9 +38,6 @@ public class Item {
     @Column(name = "unit_price")
     private Double unitPrice;
 
-    @Column(name = "qty_on_hand")
-    private int qtyOnHand;
-
     @Column(name = "is_discount")
     private Double discountPercentage;
 
@@ -76,7 +73,6 @@ public class Item {
         item.setDescription(dto.getDescription());
         item.setRate(dto.getRate());
         item.setUnitPrice(dto.getUnitPrice());
-        item.setQtyOnHand(dto.getQtyOnHand());
         item.setDiscountPercentage(dto.getDiscountPercentage());
         item.setStatus(ItemStatus.ACTIVE);
         return item;

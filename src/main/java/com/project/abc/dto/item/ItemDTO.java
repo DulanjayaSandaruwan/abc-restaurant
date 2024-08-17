@@ -28,9 +28,6 @@ public class ItemDTO extends BaseRequest {
     @DecimalMin(value = "0.0", inclusive = false, message = "Unit price must be greater than zero")
     private Double unitPrice;
 
-    @Min(value = 0, message = "Quantity on hand must be non-negative")
-    private int qtyOnHand;
-
     @DecimalMin(value = "0.0", inclusive = false, message = "Discount percentage must be greater than or equal to 0")
     @DecimalMax(value = "100.0", inclusive = true, message = "Discount percentage must be less than or equal to 100")
     private Double discountPercentage;
@@ -46,7 +43,6 @@ public class ItemDTO extends BaseRequest {
         itemDTO.setDescription(item.getDescription());
         itemDTO.setRate(item.getRate());
         itemDTO.setUnitPrice(item.getUnitPrice());
-        itemDTO.setQtyOnHand(item.getQtyOnHand());
         itemDTO.setDiscountPercentage(item.getDiscountPercentage());
         itemDTO.setStatus(item.getStatus());
         return itemDTO;

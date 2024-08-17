@@ -1,8 +1,12 @@
 package com.project.abc.service.order;
 
+import com.project.abc.commons.Check;
+import com.project.abc.commons.exceptions.http.BadRequestException;
 import com.project.abc.commons.exceptions.http.InsufficientStockException;
+import com.project.abc.commons.exceptions.http.OrderNotFoundException;
 import com.project.abc.dto.order.OrderDTO;
 import com.project.abc.dto.order.OrderDetailDTO;
+import com.project.abc.dto.order.UpdateOrderStatusDTO;
 import com.project.abc.model.item.Item;
 import com.project.abc.model.order.Order;
 import com.project.abc.model.order.OrderDetail;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -46,13 +51,6 @@ public class OrderService {
         Set<OrderDetail> orderDetails = new HashSet<>();
         for (OrderDetailDTO detailDTO : orderDTO.getOrderDetails()) {
             Item item = itemService.getItemById(detailDTO.getItem().getId());
-
-            if (item.getQtyOnHand() < detailDTO.getQuantity()) {
-                throw new InsufficientStockException("Not enough quantity available for item " + item.getId());
-            }
-
-            item.setQtyOnHand(item.getQtyOnHand() - detailDTO.getQuantity());
-            itemService.reduceQtyOnHand(item);
 
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setId(UUID.randomUUID().toString());
@@ -82,5 +80,24 @@ public class OrderService {
         savedOrder.setPayment(savedPayment);
 
         return savedOrder;
+    }
+
+    public Order getOrderById(String orderId) {
+        log.info("Get order by id = {}", orderId);
+        Optional<Order> orderOptional = orderRepository.findById(orderId);
+        Check.throwIfEmpty(orderOptional, new OrderNotFoundException("Order not found with Id : " + orderId));
+        Order order = orderOptional.get();
+        return order;
+    }
+
+    public Order updateOrderStatus(UpdateOrderStatusDTO updateOrderStatusDTO, String orderId) {
+        log.info("update order status orderId {}", orderId);
+        Order order = this.getOrderById(orderId);
+        if (order.getStatus().equals(updateOrderStatusDTO.getStatus())) {
+            throw new BadRequestException(orderId + "'s status is already exist");
+        } else {
+            order.setStatus(updateOrderStatusDTO.getStatus());
+        }
+        return orderRepository.save(order);
     }
 }
