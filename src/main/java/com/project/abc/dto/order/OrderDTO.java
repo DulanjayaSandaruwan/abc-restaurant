@@ -5,6 +5,7 @@ import com.project.abc.dto.item.ItemDTO;
 import com.project.abc.dto.user.UserDTO;
 import com.project.abc.model.order.Order;
 import com.project.abc.model.order.OrderDetail;
+import com.project.abc.model.order.Payment;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,8 @@ public class OrderDTO extends BaseRequest {
 
     private Set<OrderDetailDTO> orderDetails;
 
+    private PaymentDTO payment;
+
     public static OrderDTO init(Order order) {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(order.getId());
@@ -50,10 +53,14 @@ public class OrderDTO extends BaseRequest {
             OrderDetailDTO detailDTO = new OrderDetailDTO();
             detailDTO.setId(detail.getId());
             detailDTO.setQuantity(detail.getQuantity());
-            detailDTO.setItem(ItemDTO.init(detail.getItem()));  // Assume you have ItemDTO.init method
+            detailDTO.setItem(ItemDTO.init(detail.getItem()));
             orderDetailDTOs.add(detailDTO);
         }
         orderDTO.setOrderDetails(orderDetailDTOs);
+
+        if (order.getPayment() != null) {
+            orderDTO.setPayment(PaymentDTO.init(order.getPayment()));
+        }
 
         return orderDTO;
     }

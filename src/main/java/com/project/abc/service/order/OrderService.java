@@ -6,8 +6,10 @@ import com.project.abc.dto.order.OrderDetailDTO;
 import com.project.abc.model.item.Item;
 import com.project.abc.model.order.Order;
 import com.project.abc.model.order.OrderDetail;
+import com.project.abc.model.order.Payment;
 import com.project.abc.repository.order.OrderDetailRepository;
 import com.project.abc.repository.order.OrderRepository;
+import com.project.abc.repository.order.PaymentRepositoy;
 import com.project.abc.security.Session;
 import com.project.abc.service.item.ItemService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -32,6 +35,9 @@ public class OrderService {
 
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private PaymentRepositoy paymentRepositoy;
 
     public Order createOrder(OrderDTO orderDTO) {
         log.info("place order by user {}", Session.getUser().getId());
@@ -57,24 +63,26 @@ public class OrderService {
         }
         order.setOrderDetails(orderDetails);
 
-//        if (orderDTO.getPayment() != null) {
-//            PaymentDTO paymentDTO = orderDTO.getPayment();
-//            Payment payment = new Payment();
-//            payment.setId(UUID.randomUUID().toString());
-//            payment.setPaymentDate(paymentDTO.getPaymentDate());
-//            payment.setAmount(paymentDTO.getAmount());
-//            payment.setPaymentMethod(paymentDTO.getPaymentMethod());
-//            payment.setPaymentStatus(paymentDTO.getPaymentStatus());
-//            payment.setOrder(order);
-//            order.setPayment(payment);
-//        }
-
         Order savedOrder = orderRepository.save(order);
         orderDetailRepository.saveAll(order.getOrderDetails());
 
-//        if (order.getPayment() != null) {
-//            paymentRepository.save(order.getPayment());
-//        }
+        Payment payment = new Payment();
+        payment.setId(UUID.randomUUID().toString());
+        if (orderDTO.getPayment().getPaymentMethod().equals(Payment.PaymentMethod.ONLINE)) {
+            payment.setPaymentDate(Instant.now());
+        } else {
+            payment.setPaymentDate(orderDTO.getPayment().getPaymentDate());
+        }
+        payment.setAmount(order.getTotalAmount());
+        payment.setPaymentMethod(orderDTO.getPayment().getPaymentMethod());
+        if (orderDTO.getPayment().getPaymentMethod().equals(Payment.PaymentMethod.ONLINE)) {
+            payment.setPaymentStatus(Payment.PaymentStatus.PAID);
+        } else {
+            payment.setPaymentStatus(Payment.PaymentStatus.PENDING);
+        }
+        payment.setOrder(savedOrder);
+        Payment savedPayment = paymentRepositoy.save(payment);
+        savedOrder.setPayment(savedPayment);
 
         return savedOrder;
     }

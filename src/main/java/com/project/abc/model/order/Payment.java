@@ -47,9 +47,8 @@ public class Payment {
     private Instant updatedAt;
 
     public enum PaymentMethod {
-        CREDIT_CARD,
-        CASH,
-        ONLINE
+        ONLINE,
+        CASH
     }
 
     public enum PaymentStatus {
