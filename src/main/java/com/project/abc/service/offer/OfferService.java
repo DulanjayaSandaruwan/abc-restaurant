@@ -1,6 +1,8 @@
 package com.project.abc.service.offer;
 
+import com.project.abc.commons.Check;
 import com.project.abc.commons.exceptions.http.BadRequestException;
+import com.project.abc.commons.exceptions.http.OfferNotFoundException;
 import com.project.abc.commons.exceptions.offer.OfferExType;
 import com.project.abc.dto.item.ItemDTO;
 import com.project.abc.dto.offer.OfferDTO;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -63,6 +66,14 @@ public class OfferService {
         return offer;
     }
 
+    public Offer getOfferById(String id) {
+        log.info("Get offer by id = {}", id);
+        Optional<Offer> offerOptional = offerRepository.findById(id);
+        Check.throwIfEmpty(offerOptional, new OfferNotFoundException("Offer not found with Id : " + id));
+        Offer offer = offerOptional.get();
+        return offer;
+    }
+
     public Page<Offer> getAllOffers(OfferSearchParamDTO searchDTO) {
         log.info("get all offers");
         Pageable pageable = PageRequest.of(searchDTO.getPage(), searchDTO.getSize());
@@ -75,5 +86,16 @@ public class OfferService {
                 searchDTO.getEndDate(),
                 pageable
         );
+    }
+
+    public Offer deleteOffer(String offerId) {
+        log.info("delete. offer id={}", offerId);
+        Offer offer = getOfferById(offerId);
+        if (offer.getStatus() == Offer.OfferStatus.DELETED) {
+            throw new BadRequestException(offerId + " is already deleted");
+        } else {
+            offer.setStatus(Offer.OfferStatus.DELETED);
+        }
+        return offerRepository.save(offer);
     }
 }

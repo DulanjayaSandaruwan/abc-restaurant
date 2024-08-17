@@ -4,7 +4,6 @@ import com.project.abc.dto.offer.OfferDTO;
 import com.project.abc.dto.offer.OfferSearchParamDTO;
 import com.project.abc.model.offer.Offer;
 import com.project.abc.model.offer.OfferDetail;
-import com.project.abc.service.item.ItemService;
 import com.project.abc.service.offer.OfferDetailService;
 import com.project.abc.service.offer.OfferService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +29,6 @@ public class OfferController {
 
     @Autowired
     private OfferDetailService offerDetailService;
-
-    @Autowired
-    private ItemService itemService;
 
     @PostMapping("/create-offer")
     public ResponseEntity<OfferDTO> createOffer(@RequestBody OfferDTO offerDTO) {
@@ -80,5 +76,12 @@ public class OfferController {
                 offersPage.getTotalElements()
         );
         return ResponseEntity.ok(offerDTOPage);
+    }
+
+    @DeleteMapping("/delete/{offerId}")
+    public ResponseEntity<OfferDTO> deleteItem(@PathVariable String offerId) {
+        Offer offer = offerService.deleteOffer(offerId);
+        List<OfferDetail> offerDetails = offerDetailService.getOfferDetailsByOfferId(offer.getId());
+        return ResponseEntity.ok(OfferDTO.initWithOfferDetails(offer, offerDetails));
     }
 }
