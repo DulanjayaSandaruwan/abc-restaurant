@@ -1,9 +1,7 @@
 package com.project.abc.controller.offer;
 
-import com.project.abc.dto.item.ItemDTO;
 import com.project.abc.dto.offer.OfferDTO;
 import com.project.abc.dto.offer.OfferSearchParamDTO;
-import com.project.abc.model.item.Item;
 import com.project.abc.model.offer.Offer;
 import com.project.abc.model.offer.OfferDetail;
 import com.project.abc.service.item.ItemService;

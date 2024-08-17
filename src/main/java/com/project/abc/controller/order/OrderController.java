@@ -2,9 +2,7 @@ package com.project.abc.controller.order;
 
 import com.project.abc.dto.order.OrderDTO;
 import com.project.abc.model.order.Order;
-import com.project.abc.model.user.User;
 import com.project.abc.service.order.OrderService;
-import com.project.abc.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

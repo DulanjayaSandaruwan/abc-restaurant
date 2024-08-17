@@ -20,7 +20,7 @@ public class Payment {
     @Column(name = "id", nullable = false)
     private String id;
 
-    @Column(name = "payment_date", nullable = false)
+    @Column(name = "payment_date")
     private Instant paymentDate;
 
     @Column(name = "amount", nullable = false)

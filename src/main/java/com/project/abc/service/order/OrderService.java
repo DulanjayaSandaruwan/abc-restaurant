@@ -68,16 +68,13 @@ public class OrderService {
 
         Payment payment = new Payment();
         payment.setId(UUID.randomUUID().toString());
-        if (orderDTO.getPayment().getPaymentMethod().equals(Payment.PaymentMethod.ONLINE)) {
-            payment.setPaymentDate(Instant.now());
-        } else {
-            payment.setPaymentDate(orderDTO.getPayment().getPaymentDate());
-        }
         payment.setAmount(order.getTotalAmount());
         payment.setPaymentMethod(orderDTO.getPayment().getPaymentMethod());
         if (orderDTO.getPayment().getPaymentMethod().equals(Payment.PaymentMethod.ONLINE)) {
+            payment.setPaymentDate(Instant.now());
             payment.setPaymentStatus(Payment.PaymentStatus.PAID);
         } else {
+            payment.setPaymentDate(null);
             payment.setPaymentStatus(Payment.PaymentStatus.PENDING);
         }
         payment.setOrder(savedOrder);

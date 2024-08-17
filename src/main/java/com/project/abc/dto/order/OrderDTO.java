@@ -5,7 +5,6 @@ import com.project.abc.dto.item.ItemDTO;
 import com.project.abc.dto.user.UserDTO;
 import com.project.abc.model.order.Order;
 import com.project.abc.model.order.OrderDetail;
-import com.project.abc.model.order.Payment;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
