@@ -1,12 +1,13 @@
 package com.project.abc.dto.user;
 
+import com.project.abc.commons.BaseRequest;
 import com.project.abc.model.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class UserDetailDTO {
+public class UserDetailDTO extends BaseRequest {
     private String fullName;
 
     private String email;

@@ -100,4 +100,8 @@ public class ItemService {
         item = itemRepository.save(item);
         return item;
     }
+
+    public void reduceQtyOnHand(Item item) {
+        itemRepository.save(item);
+    }
 }

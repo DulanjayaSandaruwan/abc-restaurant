@@ -1,5 +1,6 @@
 package com.project.abc.dto.offer;
 
+import com.project.abc.commons.BaseRequest;
 import com.project.abc.model.offer.Offer;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Slf4j
-public class OfferSearchParamDTO {
+public class OfferSearchParamDTO extends BaseRequest {
     private String offerName;
     private Double minUnitPrice;
     private Double maxUnitPrice;

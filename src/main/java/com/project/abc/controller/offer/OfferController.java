@@ -38,6 +38,7 @@ public class OfferController {
 
     @PostMapping("/create-offer")
     public ResponseEntity<OfferDTO> createOffer(@RequestBody OfferDTO offerDTO) {
+        offerDTO.validate();
         Offer offer = offerService.createOffer(offerDTO);
         List<OfferDetail> offerDetails = offerDetailService.getOfferDetailsByOfferId(offer.getId());
         OfferDTO dto = OfferDTO.initWithOfferDetails(offer, offerDetails);

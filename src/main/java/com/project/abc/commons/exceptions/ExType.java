@@ -11,7 +11,8 @@ public enum ExType implements ExceptionType {
     INVALID_TOKEN,
     TOKEN_EXPIRED,
     FILE_SIZE_EXCEED,
-    UNSUPPORTED_FILE_TYPE;
+    UNSUPPORTED_FILE_TYPE,
+    INSUFFICIENT_STOCK;
 
     @Override
     public String getType() {

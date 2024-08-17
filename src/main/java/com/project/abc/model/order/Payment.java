@@ -1,6 +1,5 @@
 package com.project.abc.model.order;
 
-import com.project.abc.model.item.Item;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,22 +14,29 @@ import java.time.Instant;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "order_detail")
-public class OrderDetail {
+@Entity(name = "payment")
+public class Payment {
     @Id
     @Column(name = "id", nullable = false)
     private String id;
 
-    @Column(name = "quantity", nullable = false)
-    private int quantity;
+    @Column(name = "payment_date", nullable = false)
+    private Instant paymentDate;
 
-    @ManyToOne
+    @Column(name = "amount", nullable = false)
+    private Double amount;
+
+    @Column(name = "payment_method", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+    @Column(name = "payment_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
+
+    @OneToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
-
-    @ManyToOne
-    @JoinColumn(name = "item_id", nullable = false)
-    private Item item;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false,updatable = false)
@@ -39,4 +45,16 @@ public class OrderDetail {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
+
+    public enum PaymentMethod {
+        CREDIT_CARD,
+        CASH,
+        ONLINE
+    }
+
+    public enum PaymentStatus {
+        PAID,
+        PENDING,
+        FAILED
+    }
 }

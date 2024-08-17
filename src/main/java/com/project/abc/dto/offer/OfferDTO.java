@@ -1,5 +1,6 @@
 package com.project.abc.dto.offer;
 
+import com.project.abc.commons.BaseRequest;
 import com.project.abc.dto.item.ItemDTO;
 import com.project.abc.model.offer.Offer;
 import com.project.abc.model.offer.OfferDetail;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Slf4j
-public class OfferDTO {
+public class OfferDTO extends BaseRequest {
     private String id;
 
     @Size(max = 40, min = 3, message = "Offer name length should be more than 3 and less than 40")
