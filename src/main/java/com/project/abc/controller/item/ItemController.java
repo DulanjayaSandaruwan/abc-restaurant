@@ -1,5 +1,8 @@
 package com.project.abc.controller.item;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.abc.commons.ImageService;
 import com.project.abc.dto.item.ItemDTO;
 import com.project.abc.dto.item.ItemRateDTO;
 import com.project.abc.dto.item.ItemSearchParamDTO;
@@ -11,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,9 +30,24 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @PostMapping("/create-item")
-    public ResponseEntity<ItemDTO> createItem(@RequestBody ItemDTO itemDTO) {
+    @Autowired
+    private ImageService imageService;
+
+//    @PostMapping("/create-item")
+//    public ResponseEntity<ItemDTO> createItem(@RequestBody ItemDTO itemDTO) {
+//        itemDTO.validate();
+//        Item item = itemService.createItem(itemDTO);
+//        ItemDTO createItemDTO = ItemDTO.initWithCategory(item);
+//        return ResponseEntity.ok(createItemDTO);
+//    }
+
+    @PostMapping(value = "/create-item", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<ItemDTO> createItem(@RequestPart("item") String itemDetails,
+                                              @RequestParam("image") MultipartFile image) throws JsonProcessingException {
+        ItemDTO itemDTO = new ObjectMapper().readValue(itemDetails, ItemDTO.class);
         itemDTO.validate();
+        String imageUrl = imageService.uploadImage(image);
+        itemDTO.setImageUrl(imageUrl);
         Item item = itemService.createItem(itemDTO);
         ItemDTO createItemDTO = ItemDTO.initWithCategory(item);
         return ResponseEntity.ok(createItemDTO);

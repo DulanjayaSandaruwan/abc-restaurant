@@ -19,9 +19,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -34,6 +40,17 @@ public class ItemService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+//    public Item createItem(ItemDTO itemDTO) {
+//        log.info("create item {}", itemDTO.getItemName());
+//        if (itemRepository.findByItemNameAndStatusNot(itemDTO.getItemName(), Item.ItemStatus.DELETED).isPresent()) {
+//            throw new BadRequestException("item already exist", ItemExType.ITEM_ALREADY_EXIST);
+//        }
+//        Optional<Category> category = categoryRepository.findById(itemDTO.getCategory().getId());
+//        Check.throwIfEmpty(category, new CategoryNotFoundException("Category not found with Id : " + itemDTO.getCategory().getId()));
+//        Item item = Item.initWithCategory(itemDTO, category.get());
+//        return itemRepository.save(item);
+//    }
+
     public Item createItem(ItemDTO itemDTO) {
         log.info("create item {}", itemDTO.getItemName());
         if (itemRepository.findByItemNameAndStatusNot(itemDTO.getItemName(), Item.ItemStatus.DELETED).isPresent()) {
@@ -42,6 +59,7 @@ public class ItemService {
         Optional<Category> category = categoryRepository.findById(itemDTO.getCategory().getId());
         Check.throwIfEmpty(category, new CategoryNotFoundException("Category not found with Id : " + itemDTO.getCategory().getId()));
         Item item = Item.initWithCategory(itemDTO, category.get());
+        item.setImageUrl(itemDTO.getImageUrl());
         return itemRepository.save(item);
     }
 
@@ -99,4 +117,6 @@ public class ItemService {
         item = itemRepository.save(item);
         return item;
     }
+
+
 }

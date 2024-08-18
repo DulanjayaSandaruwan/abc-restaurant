@@ -32,6 +32,8 @@ public class ItemDTO extends BaseRequest {
     @DecimalMax(value = "100.0", inclusive = true, message = "Discount percentage must be less than or equal to 100")
     private Double discountPercentage;
 
+    private String imageUrl;
+
     private Item.ItemStatus status;
 
     private CategoryDTO category;
@@ -44,6 +46,7 @@ public class ItemDTO extends BaseRequest {
         itemDTO.setRate(item.getRate());
         itemDTO.setUnitPrice(item.getUnitPrice());
         itemDTO.setDiscountPercentage(item.getDiscountPercentage());
+        itemDTO.setImageUrl(item.getImageUrl());
         itemDTO.setStatus(item.getStatus());
         return itemDTO;
     }

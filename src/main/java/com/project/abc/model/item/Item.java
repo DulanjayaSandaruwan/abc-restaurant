@@ -41,6 +41,9 @@ public class Item {
     @Column(name = "is_discount")
     private Double discountPercentage;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private ItemStatus status;
@@ -74,6 +77,7 @@ public class Item {
         item.setRate(dto.getRate());
         item.setUnitPrice(dto.getUnitPrice());
         item.setDiscountPercentage(dto.getDiscountPercentage());
+        item.setImageUrl(dto.getImageUrl());
         item.setStatus(ItemStatus.ACTIVE);
         return item;
     }
