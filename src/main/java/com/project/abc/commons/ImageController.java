@@ -1,4 +1,4 @@
-package com.project.abc.controller;
+package com.project.abc.commons;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
