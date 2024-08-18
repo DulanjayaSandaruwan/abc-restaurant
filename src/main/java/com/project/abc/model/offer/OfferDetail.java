@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -28,10 +29,10 @@ public class OfferDetail {
     private String offerId;
 
     @Column(name = "start_date", nullable = false)
-    private Instant startDate;
+    private String startDate;
 
     @Column(name = "end_date", nullable = false)
-    private Instant endDate;
+    private String endDate;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false,updatable = false)

@@ -32,6 +32,9 @@ public class Offer {
     @Column(name = "unit_price")
     private Double offerUnitPrice;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private OfferStatus status;
@@ -59,6 +62,7 @@ public class Offer {
         offer.setOfferName(dto.getOfferName());
         offer.setDescription(dto.getDescription());
         offer.setOfferUnitPrice(dto.getOfferUnitPrice());
+        offer.setImageUrl(dto.getImageUrl());
         offer.setStatus(OfferStatus.ACTIVE);
         return offer;
     }

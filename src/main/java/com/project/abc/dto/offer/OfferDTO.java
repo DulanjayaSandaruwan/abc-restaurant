@@ -12,6 +12,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,11 +33,13 @@ public class OfferDTO extends BaseRequest {
     @DecimalMin(value = "0.0", inclusive = false, message = "Offer Unit price must be greater than zero")
     private Double offerUnitPrice;
 
+    private String imageUrl;
+
     private Offer.OfferStatus status;
 
-    private Instant startDate;
+    private String startDate;
 
-    private Instant endDate;
+    private String endDate;
 
     private List<ItemDTO> items;
 
@@ -46,6 +49,7 @@ public class OfferDTO extends BaseRequest {
         offerDTO.setOfferName(offer.getOfferName());
         offerDTO.setDescription(offer.getDescription());
         offerDTO.setOfferUnitPrice(offer.getOfferUnitPrice());
+        offerDTO.setImageUrl(offer.getImageUrl());
         offerDTO.setStatus(offer.getStatus());
         return offerDTO;
     }

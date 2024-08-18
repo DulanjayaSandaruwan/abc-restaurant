@@ -33,17 +33,11 @@ public class ItemController {
     @Autowired
     private ImageService imageService;
 
-//    @PostMapping("/create-item")
-//    public ResponseEntity<ItemDTO> createItem(@RequestBody ItemDTO itemDTO) {
-//        itemDTO.validate();
-//        Item item = itemService.createItem(itemDTO);
-//        ItemDTO createItemDTO = ItemDTO.initWithCategory(item);
-//        return ResponseEntity.ok(createItemDTO);
-//    }
-
     @PostMapping(value = "/create-item", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<ItemDTO> createItem(@RequestPart("item") String itemDetails,
-                                              @RequestParam("image") MultipartFile image) throws JsonProcessingException {
+    public ResponseEntity<ItemDTO> createItem(
+            @RequestPart("item") String itemDetails,
+            @RequestParam("image") MultipartFile image
+    ) throws JsonProcessingException {
         ItemDTO itemDTO = new ObjectMapper().readValue(itemDetails, ItemDTO.class);
         itemDTO.validate();
         String imageUrl = imageService.uploadImage(image);

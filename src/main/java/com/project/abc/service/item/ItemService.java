@@ -40,17 +40,6 @@ public class ItemService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-//    public Item createItem(ItemDTO itemDTO) {
-//        log.info("create item {}", itemDTO.getItemName());
-//        if (itemRepository.findByItemNameAndStatusNot(itemDTO.getItemName(), Item.ItemStatus.DELETED).isPresent()) {
-//            throw new BadRequestException("item already exist", ItemExType.ITEM_ALREADY_EXIST);
-//        }
-//        Optional<Category> category = categoryRepository.findById(itemDTO.getCategory().getId());
-//        Check.throwIfEmpty(category, new CategoryNotFoundException("Category not found with Id : " + itemDTO.getCategory().getId()));
-//        Item item = Item.initWithCategory(itemDTO, category.get());
-//        return itemRepository.save(item);
-//    }
-
     public Item createItem(ItemDTO itemDTO) {
         log.info("create item {}", itemDTO.getItemName());
         if (itemRepository.findByItemNameAndStatusNot(itemDTO.getItemName(), Item.ItemStatus.DELETED).isPresent()) {

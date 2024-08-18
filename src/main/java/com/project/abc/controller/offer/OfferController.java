@@ -1,5 +1,8 @@
 package com.project.abc.controller.offer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.abc.commons.ImageService;
 import com.project.abc.dto.offer.OfferDTO;
 import com.project.abc.dto.offer.OfferSearchParamDTO;
 import com.project.abc.dto.offer.UpdateOfferDTO;
@@ -13,8 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 import java.util.List;
@@ -31,9 +36,17 @@ public class OfferController {
     @Autowired
     private OfferDetailService offerDetailService;
 
-    @PostMapping("/create-offer")
-    public ResponseEntity<OfferDTO> createOffer(@RequestBody OfferDTO offerDTO) {
-        offerDTO.validate();
+    @Autowired
+    private ImageService imageService;
+
+    @PostMapping(value = "/create-offer", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<OfferDTO> createOffer(
+            @RequestPart("offer") String offerData,
+            @RequestParam("image") MultipartFile image
+    ) throws JsonProcessingException {
+        OfferDTO offerDTO = new ObjectMapper().readValue(offerData, OfferDTO.class);
+        String imageUrl = imageService.uploadImage(image);
+        offerDTO.setImageUrl(imageUrl);
         Offer offer = offerService.createOffer(offerDTO);
         List<OfferDetail> offerDetails = offerDetailService.getOfferDetailsByOfferId(offer.getId());
         OfferDTO dto = OfferDTO.initWithOfferDetails(offer, offerDetails);

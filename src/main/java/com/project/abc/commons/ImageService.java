@@ -1,5 +1,6 @@
 package com.project.abc.commons;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,15 +11,18 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class ImageService {
 
     private final Path baseDirectory = Paths.get("D:/ICBT/Assignments/Advanced Programming/abc-restaurant-images");
 
     public String uploadImage(MultipartFile image) {
+        log.info("upload image");
         return saveImageToLocalDirectory(image);
     }
 
     private String saveImageToLocalDirectory(MultipartFile image) {
+        log.info("save image to local directory");
         String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
         Path filePath = baseDirectory.resolve(fileName);
 
@@ -30,6 +34,6 @@ public class ImageService {
             throw new RuntimeException("Failed to store file " + fileName, e);
         }
 
-        return "/api/uploads/" + fileName;  // Return URL path
+        return "http://localhost:8080/api/uploads/" + fileName;  // Return URL path
     }
 }
