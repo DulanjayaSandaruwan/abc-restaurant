@@ -11,11 +11,11 @@ import java.util.UUID;
 
 @Service
 public class ImageService {
+
     private final Path baseDirectory = Paths.get("D:/ICBT/Assignments/Advanced Programming/abc-restaurant-images");
 
     public String uploadImage(MultipartFile image) {
-        String imageUrl = saveImageToLocalDirectory(image);
-        return imageUrl;
+        return saveImageToLocalDirectory(image);
     }
 
     private String saveImageToLocalDirectory(MultipartFile image) {
@@ -23,11 +23,13 @@ public class ImageService {
         Path filePath = baseDirectory.resolve(fileName);
 
         try {
-            Files.createDirectories(filePath.getParent());
-            Files.write(filePath, image.getBytes());
+            Files.createDirectories(filePath.getParent());  // Create directories if they don't exist
+            Files.write(filePath, image.getBytes());  // Write file bytes to disk
+            System.out.println("File saved at: " + filePath.toAbsolutePath());
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file " + fileName, e);
         }
-        return "http://localhost:8080/api/uploads/images/" + fileName;
+
+        return "/api/uploads/" + fileName;  // Return URL path
     }
 }

@@ -21,7 +21,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final List<String> PERMIT_URL = List.of(
             "/user/login",
             "/user/register",
-            "/health/status"
+            "/health/status",
+            "/uploads/**"
     );
 
     public static List<String> ACTIVATION_NOT_REQUIRED_URLS = List.of();

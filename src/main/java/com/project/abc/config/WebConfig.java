@@ -1,26 +1,15 @@
 package com.project.abc.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-public class WebConfig {
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${file.prefix}")
-    String prefix;
-
-    @Value("${folder.path.name}")
-    String folder;
-
-    @Bean
-    public WebMvcConfigurer configurer() {
-
-        return  new WebMvcConfigurer() {
-            @Override
-            public void addResourceHandlers(ResourceHandlerRegistry registry) {
-                registry.addResourceHandler("/"+ prefix +"/**").addResourceLocations(folder);
-            }
-        };
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/api/uploads/**")
+                .addResourceLocations("file:D:/ICBT/Assignments/Advanced Programming/abc-restaurant-images/");
     }
 }
