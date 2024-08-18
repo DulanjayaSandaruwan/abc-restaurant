@@ -52,7 +52,7 @@ public class OrderDTO extends BaseRequest {
             OrderDetailDTO detailDTO = new OrderDetailDTO();
             detailDTO.setId(detail.getId());
             detailDTO.setQuantity(detail.getQuantity());
-            detailDTO.setItem(ItemDTO.init(detail.getItem()));
+            detailDTO.setItem(ItemDTO.initWithCategory(detail.getItem()));
             orderDetailDTOs.add(detailDTO);
         }
         orderDTO.setOrderDetails(orderDetailDTOs);

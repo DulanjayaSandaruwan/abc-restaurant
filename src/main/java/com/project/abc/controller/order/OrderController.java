@@ -1,13 +1,18 @@
 package com.project.abc.controller.order;
 
 import com.project.abc.dto.order.OrderDTO;
+import com.project.abc.dto.order.OrderSearchParamDTO;
 import com.project.abc.dto.order.UpdateOrderStatusDTO;
 import com.project.abc.model.order.Order;
+import com.project.abc.model.order.Payment;
 import com.project.abc.service.order.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.Instant;
 
 @RequestMapping("/order")
 @RestController
@@ -33,5 +38,29 @@ public class OrderController {
         Order order = orderService.updateOrderStatus(updateOrderStatusDTO, id);
         OrderDTO orderDTO = OrderDTO.init(order);
         return ResponseEntity.ok(orderDTO);
+    }
+
+    @GetMapping("/orders")
+    public ResponseEntity<Page<OrderDTO>> searchOrders(
+            @RequestParam(required = false) Instant orderDate,
+            @RequestParam(required = false) Order.OrderType orderType,
+            @RequestParam(required = false) Order.OrderStatus orderStatus,
+            @RequestParam(required = false) String userId,
+            @RequestParam(required = false) Payment.PaymentStatus paymentStatus,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        OrderSearchParamDTO searchParam = new OrderSearchParamDTO(
+                orderDate,
+                orderType,
+                orderStatus,
+                userId,
+                paymentStatus,
+                page,
+                size
+        );
+        Page<Order> ordersPage = orderService.searchOrders(searchParam);
+        Page<OrderDTO> orderDTOPage = ordersPage.map(OrderDTO::init);
+        return ResponseEntity.ok(orderDTOPage);
     }
 }

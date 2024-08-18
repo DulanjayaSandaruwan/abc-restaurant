@@ -7,6 +7,7 @@ import com.project.abc.commons.exceptions.offer.OfferExType;
 import com.project.abc.dto.item.ItemDTO;
 import com.project.abc.dto.offer.OfferDTO;
 import com.project.abc.dto.offer.OfferSearchParamDTO;
+import com.project.abc.dto.offer.UpdateOfferDTO;
 import com.project.abc.model.item.Item;
 import com.project.abc.model.offer.Offer;
 import com.project.abc.model.offer.OfferDetail;
@@ -43,7 +44,7 @@ public class OfferService {
     public Offer createOffer(OfferDTO offerDTO) {
         log.info("create offer {}", offerDTO.getOfferName());
         Offer offer = Offer.init(offerDTO);
-        if (offerRepository.findByOfferNameAndStatusNot(offerDTO.getOfferName() , Offer.OfferStatus.DELETED).isPresent()) {
+        if (offerRepository.findByOfferNameAndStatusNot(offerDTO.getOfferName(), Offer.OfferStatus.DELETED).isPresent()) {
             throw new BadRequestException("offer already exist", OfferExType.OFFER_ALREADY_EXIST);
         }
         offerRepository.save(offer);
@@ -71,6 +72,25 @@ public class OfferService {
         Optional<Offer> offerOptional = offerRepository.findById(id);
         Check.throwIfEmpty(offerOptional, new OfferNotFoundException("Offer not found with Id : " + id));
         Offer offer = offerOptional.get();
+        return offer;
+    }
+
+    public Offer updateOffer(String offerId, UpdateOfferDTO updateOfferDTO) {
+        log.info("Updating offer with id={}", offerId);
+        Offer offer = getOfferById(offerId);
+        if (offerRepository.findByOfferNameAndStatusNot(updateOfferDTO.getOfferName(), Offer.OfferStatus.DELETED).isPresent()) {
+            throw new BadRequestException("offer already exist", OfferExType.OFFER_ALREADY_EXIST);
+        }
+        if (updateOfferDTO.getOfferName() != null) {
+            offer.setOfferName(updateOfferDTO.getOfferName());
+        }
+        if (updateOfferDTO.getDescription() != null) {
+            offer.setDescription(updateOfferDTO.getDescription());
+        }
+        if (updateOfferDTO.getOfferUnitPrice() != null) {
+            offer.setOfferUnitPrice(updateOfferDTO.getOfferUnitPrice());
+        }
+        offerRepository.save(offer);
         return offer;
     }
 

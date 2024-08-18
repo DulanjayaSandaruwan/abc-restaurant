@@ -2,10 +2,10 @@ package com.project.abc.service.order;
 
 import com.project.abc.commons.Check;
 import com.project.abc.commons.exceptions.http.BadRequestException;
-import com.project.abc.commons.exceptions.http.InsufficientStockException;
 import com.project.abc.commons.exceptions.http.OrderNotFoundException;
 import com.project.abc.dto.order.OrderDTO;
 import com.project.abc.dto.order.OrderDetailDTO;
+import com.project.abc.dto.order.OrderSearchParamDTO;
 import com.project.abc.dto.order.UpdateOrderStatusDTO;
 import com.project.abc.model.item.Item;
 import com.project.abc.model.order.Order;
@@ -18,6 +18,9 @@ import com.project.abc.security.Session;
 import com.project.abc.service.item.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -57,7 +60,7 @@ public class OrderService {
             orderDetail.setQuantity(detailDTO.getQuantity());
             orderDetail.setItem(item);
             orderDetail.setOrder(order);
-            orderDetails.add(orderDetail);;
+            orderDetails.add(orderDetail);
         }
         order.setOrderDetails(orderDetails);
 
@@ -99,5 +102,18 @@ public class OrderService {
             order.setStatus(updateOrderStatusDTO.getStatus());
         }
         return orderRepository.save(order);
+    }
+
+    public Page<Order> searchOrders(OrderSearchParamDTO searchParamDTO) {
+        log.info("get all orders");
+        Pageable pageable = PageRequest.of(searchParamDTO.getPage(), searchParamDTO.getSize());
+        return orderRepository.searchOrders(
+                searchParamDTO.getOrderDate(),
+                searchParamDTO.getOrderType(),
+                searchParamDTO.getOrderStatus(),
+                searchParamDTO.getUserId(),
+                searchParamDTO.getPaymentStatus(),
+                pageable
+        );
     }
 }

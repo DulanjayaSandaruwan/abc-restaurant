@@ -2,6 +2,7 @@ package com.project.abc.controller.offer;
 
 import com.project.abc.dto.offer.OfferDTO;
 import com.project.abc.dto.offer.OfferSearchParamDTO;
+import com.project.abc.dto.offer.UpdateOfferDTO;
 import com.project.abc.model.offer.Offer;
 import com.project.abc.model.offer.OfferDetail;
 import com.project.abc.service.offer.OfferDetailService;
@@ -36,6 +37,18 @@ public class OfferController {
         Offer offer = offerService.createOffer(offerDTO);
         List<OfferDetail> offerDetails = offerDetailService.getOfferDetailsByOfferId(offer.getId());
         OfferDTO dto = OfferDTO.initWithOfferDetails(offer, offerDetails);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PutMapping("/update-offer/{offerId}")
+    public ResponseEntity<OfferDTO> updateOffer(
+            @PathVariable String offerId,
+            @RequestBody UpdateOfferDTO updateOfferDTO)
+    {
+        updateOfferDTO.validate();
+        Offer updatedOffer = offerService.updateOffer(offerId, updateOfferDTO);
+        List<OfferDetail> offerDetails = offerDetailService.getOfferDetailsByOfferId(updatedOffer.getId());
+        OfferDTO dto = OfferDTO.initWithOfferDetails(updatedOffer, offerDetails);
         return ResponseEntity.ok(dto);
     }
 
