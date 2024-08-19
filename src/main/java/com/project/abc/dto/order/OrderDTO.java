@@ -57,7 +57,7 @@ public class OrderDTO extends BaseRequest {
                 detailDTO.setItem(ItemDTO.initWithCategory(detail.getItem()));
             }
             if (detail.getOffer() != null) {
-                detailDTO.setOffer(OfferDTO.initWithOfferDetails(detail.getOffer()));
+                detailDTO.setOffer(OfferDTO.init(detail.getOffer()));
             }
             orderDetailDTOs.add(detailDTO);
         }
