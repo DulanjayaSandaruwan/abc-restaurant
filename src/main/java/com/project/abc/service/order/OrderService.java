@@ -8,6 +8,7 @@ import com.project.abc.dto.order.OrderDetailDTO;
 import com.project.abc.dto.order.OrderSearchParamDTO;
 import com.project.abc.dto.order.UpdateOrderStatusDTO;
 import com.project.abc.model.item.Item;
+import com.project.abc.model.offer.Offer;
 import com.project.abc.model.order.Order;
 import com.project.abc.model.order.OrderDetail;
 import com.project.abc.model.order.Payment;
@@ -16,6 +17,7 @@ import com.project.abc.repository.order.OrderRepository;
 import com.project.abc.repository.order.PaymentRepositoy;
 import com.project.abc.security.Session;
 import com.project.abc.service.item.ItemService;
+import com.project.abc.service.offer.OfferService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,19 +49,72 @@ public class OrderService {
     @Autowired
     private PaymentRepositoy paymentRepositoy;
 
+    @Autowired
+    private OfferService offerService;
+
+//    public Order createOrder(OrderDTO orderDTO) {
+//        log.info("place order by user {}", Session.getUser().getId());
+//        Order order = Order.init(orderDTO, Session.getUser());
+//
+//        Set<OrderDetail> orderDetails = new HashSet<>();
+//        for (OrderDetailDTO detailDTO : orderDTO.getOrderDetails()) {
+//            Item item = itemService.getItemById(detailDTO.getItem().getId());
+//
+//            OrderDetail orderDetail = new OrderDetail();
+//            orderDetail.setId(UUID.randomUUID().toString());
+//            orderDetail.setQuantity(detailDTO.getQuantity());
+//            orderDetail.setItem(item);
+//            orderDetail.setOrder(order);
+//            orderDetails.add(orderDetail);
+//        }
+//        order.setOrderDetails(orderDetails);
+//
+//        Order savedOrder = orderRepository.save(order);
+//        orderDetailRepository.saveAll(order.getOrderDetails());
+//
+//        Payment payment = new Payment();
+//        payment.setId(UUID.randomUUID().toString());
+//        payment.setAmount(order.getTotalAmount());
+//        payment.setPaymentMethod(orderDTO.getPayment().getPaymentMethod());
+//        if (orderDTO.getPayment().getPaymentMethod().equals(Payment.PaymentMethod.ONLINE)) {
+//            payment.setPaymentDate(Instant.now());
+//            payment.setPaymentStatus(Payment.PaymentStatus.PAID);
+//        } else {
+//            payment.setPaymentDate(null);
+//            payment.setPaymentStatus(Payment.PaymentStatus.PENDING);
+//        }
+//        payment.setOrder(savedOrder);
+//        Payment savedPayment = paymentRepositoy.save(payment);
+//        savedOrder.setPayment(savedPayment);
+//
+//        return savedOrder;
+//    }
+
     public Order createOrder(OrderDTO orderDTO) {
-        log.info("place order by user {}", Session.getUser().getId());
+        log.info("Place order by user {}", Session.getUser().getId());
         Order order = Order.init(orderDTO, Session.getUser());
 
         Set<OrderDetail> orderDetails = new HashSet<>();
         for (OrderDetailDTO detailDTO : orderDTO.getOrderDetails()) {
-            Item item = itemService.getItemById(detailDTO.getItem().getId());
-
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setId(UUID.randomUUID().toString());
             orderDetail.setQuantity(detailDTO.getQuantity());
-            orderDetail.setItem(item);
             orderDetail.setOrder(order);
+
+            if (detailDTO.getItem() != null) {
+                Item item = itemService.getItemById(detailDTO.getItem().getId());
+                orderDetail.setItem(item);
+            }
+
+            if (detailDTO.getOffer() != null) {
+                Offer offer = offerService.getOfferById(detailDTO.getOffer().getId());
+                orderDetail.setOffer(offer);
+            }
+
+            if (orderDetail.getItem() == null && orderDetail.getOffer() == null) {
+                throw new IllegalArgumentException("Either item or offer must be provided for order details.");
+            }
+
             orderDetails.add(orderDetail);
         }
         order.setOrderDetails(orderDetails);
@@ -84,6 +139,7 @@ public class OrderService {
 
         return savedOrder;
     }
+
 
     public Order getOrderById(String orderId) {
         log.info("Get order by id = {}", orderId);

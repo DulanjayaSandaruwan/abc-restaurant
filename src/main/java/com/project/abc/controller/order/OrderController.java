@@ -30,7 +30,7 @@ public class OrderController {
     }
 
     @PutMapping("/update-order-status/{id}")
-    public ResponseEntity<OrderDTO> updateItem(
+    public ResponseEntity<OrderDTO> updateOrderStatus(
             @RequestBody UpdateOrderStatusDTO updateOrderStatusDTO,
             @PathVariable String id
     ) {

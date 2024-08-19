@@ -2,6 +2,7 @@ package com.project.abc.dto.order;
 
 import com.project.abc.commons.BaseRequest;
 import com.project.abc.dto.item.ItemDTO;
+import com.project.abc.dto.offer.OfferDTO;
 import com.project.abc.dto.user.UserDTO;
 import com.project.abc.model.order.Order;
 import com.project.abc.model.order.OrderDetail;
@@ -52,7 +53,12 @@ public class OrderDTO extends BaseRequest {
             OrderDetailDTO detailDTO = new OrderDetailDTO();
             detailDTO.setId(detail.getId());
             detailDTO.setQuantity(detail.getQuantity());
-            detailDTO.setItem(ItemDTO.initWithCategory(detail.getItem()));
+            if (detail.getItem() != null) {
+                detailDTO.setItem(ItemDTO.initWithCategory(detail.getItem()));
+            }
+            if (detail.getOffer() != null) {
+                detailDTO.setOffer(OfferDTO.initWithOfferDetails(detail.getOffer()));
+            }
             orderDetailDTOs.add(detailDTO);
         }
         orderDTO.setOrderDetails(orderDetailDTOs);

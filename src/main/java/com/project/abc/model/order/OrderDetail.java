@@ -1,6 +1,7 @@
 package com.project.abc.model.order;
 
 import com.project.abc.model.item.Item;
+import com.project.abc.model.offer.Offer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +30,12 @@ public class OrderDetail {
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "item_id", nullable = false)
+    @JoinColumn(name = "item_id")
     private Item item;
+
+    @ManyToOne
+    @JoinColumn(name = "offer_id")
+    private Offer offer;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false,updatable = false)

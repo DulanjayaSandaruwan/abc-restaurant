@@ -2,6 +2,7 @@ package com.project.abc.dto.order;
 
 import com.project.abc.commons.BaseRequest;
 import com.project.abc.dto.item.ItemDTO;
+import com.project.abc.dto.offer.OfferDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ public class OrderDetailDTO extends BaseRequest {
     @NotNull(message = "Quantity is mandatory")
     private int quantity;
 
-    @NotNull(message = "Item is mandatory")
     private ItemDTO item;
+
+    private OfferDTO offer;
 }
