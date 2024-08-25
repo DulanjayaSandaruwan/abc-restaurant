@@ -8,6 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDetailDTO extends BaseRequest {
+
+    private String id;
+
     private String fullName;
 
     private String email;
@@ -22,6 +25,7 @@ public class UserDetailDTO extends BaseRequest {
 
     public static UserDetailDTO init(User user) {
         UserDetailDTO userDetailDTO = new UserDetailDTO();
+        userDetailDTO.setId(user.getId());
         userDetailDTO.setFullName(user.getFullName());
         userDetailDTO.setEmail(user.getEmail());
         userDetailDTO.setAddress(user.getAddress());
