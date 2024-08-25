@@ -3,10 +3,7 @@ package com.project.abc.controller.item;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.abc.commons.ImageService;
-import com.project.abc.dto.item.ItemDTO;
-import com.project.abc.dto.item.ItemRateDTO;
-import com.project.abc.dto.item.ItemSearchParamDTO;
-import com.project.abc.dto.item.ItemUpdateDTO;
+import com.project.abc.dto.item.*;
 import com.project.abc.model.item.Item;
 import com.project.abc.service.item.ItemService;
 import lombok.extern.slf4j.Slf4j;
@@ -113,5 +110,13 @@ public class ItemController {
         Item item = itemService.updateItemRate(itemRateDTO, id);
         ItemDTO itemDTO = ItemDTO.initWithCategory(item);
         return ResponseEntity.ok(itemDTO);
+    }
+
+    @GetMapping("/item-count")
+    public ResponseEntity<ItemCountDTO> getItemCount() {
+        int itemCount = itemService.getItemCount();
+        ItemCountDTO itemCountDTO = new ItemCountDTO();
+        itemCountDTO.setItemCount(itemCount);
+        return ResponseEntity.ok(itemCountDTO);
     }
 }

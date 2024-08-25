@@ -107,5 +107,9 @@ public class ItemService {
         return item;
     }
 
-
+    public int getItemCount() {
+        log.info("get item count");
+        int itemCount = itemRepository.countByStatus(Item.ItemStatus.ACTIVE);
+        return itemCount;
+    }
 }

@@ -33,4 +33,6 @@ public interface ItemRepository extends JpaRepository<Item, String> {
             Pageable pageable
     );
 
+    int countByStatus(Item.ItemStatus status);
+
 }
