@@ -22,7 +22,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/user/login",
             "/user/register",
             "/health/status",
-            "/uploads/**"
+            "/uploads/**",
+            "/item/items",
+            "/category/categories"
     );
 
     public static List<String> ACTIVATION_NOT_REQUIRED_URLS = List.of();
