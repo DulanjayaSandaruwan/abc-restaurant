@@ -8,6 +8,7 @@ import com.project.abc.dto.category.CategoryDTO;
 import com.project.abc.dto.category.CategorySearchParamDTO;
 import com.project.abc.dto.category.UpdateCategoryDTO;
 import com.project.abc.model.category.Category;
+import com.project.abc.model.item.Item;
 import com.project.abc.repository.category.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,11 @@ public class CategoryService {
                 searchParams.getStatus(),
                 pageable
         );
+    }
+
+    public int getCategoryCount() {
+        log.info("get category count");
+        int categoryCount = categoryRepository.countByStatus(Category.CategoryStatus.ACTIVE);
+        return categoryCount;
     }
 }

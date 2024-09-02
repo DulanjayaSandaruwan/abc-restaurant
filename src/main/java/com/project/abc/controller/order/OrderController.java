@@ -1,5 +1,7 @@
 package com.project.abc.controller.order;
 
+import com.project.abc.dto.category.CategoryCountDTO;
+import com.project.abc.dto.order.OrderCountDTO;
 import com.project.abc.dto.order.OrderDTO;
 import com.project.abc.dto.order.OrderSearchParamDTO;
 import com.project.abc.dto.order.UpdateOrderStatusDTO;
@@ -68,5 +70,13 @@ public class OrderController {
         Page<Order> ordersPage = orderService.searchOrders(searchParam);
         Page<OrderDTO> orderDTOPage = ordersPage.map(OrderDTO::init);
         return ResponseEntity.ok(orderDTOPage);
+    }
+
+    @GetMapping("/pending-order-count")
+    public ResponseEntity<OrderCountDTO> getPendingOrderCount() {
+        int pendingOrderCount = orderService.getPendingOrderCount();
+        OrderCountDTO orderCountDTO = new OrderCountDTO();
+        orderCountDTO.setPendingOrderCount(pendingOrderCount);
+        return ResponseEntity.ok(orderCountDTO);
     }
 }

@@ -78,9 +78,6 @@ public class OfferService {
     public Offer updateOffer(String offerId, UpdateOfferDTO updateOfferDTO) {
         log.info("Updating offer with id={}", offerId);
         Offer offer = getOfferById(offerId);
-        if (offerRepository.findByOfferNameAndStatusNot(updateOfferDTO.getOfferName(), Offer.OfferStatus.DELETED).isPresent()) {
-            throw new BadRequestException("offer already exist", OfferExType.OFFER_ALREADY_EXIST);
-        }
         if (updateOfferDTO.getOfferName() != null) {
             offer.setOfferName(updateOfferDTO.getOfferName());
         }

@@ -1,5 +1,6 @@
 package com.project.abc.repository.order;
 
+import com.project.abc.model.category.Category;
 import com.project.abc.model.order.Order;
 import com.project.abc.model.order.Payment;
 import org.springframework.data.domain.Page;
@@ -27,4 +28,6 @@ public interface OrderRepository extends JpaRepository<Order, String> {
             @Param("paymentStatus") Payment.PaymentStatus paymentStatus,
             Pageable pageable
     );
+
+    int countByStatus(Order.OrderStatus status);
 }

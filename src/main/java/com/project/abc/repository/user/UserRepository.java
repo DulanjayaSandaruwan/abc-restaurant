@@ -1,5 +1,6 @@
 package com.project.abc.repository.user;
 
+import com.project.abc.model.order.Order;
 import com.project.abc.model.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,4 +32,5 @@ public interface UserRepository extends JpaRepository<User, String> {
             Pageable pageable
     );
 
+    int countByRole(User.UserRole role);
 }

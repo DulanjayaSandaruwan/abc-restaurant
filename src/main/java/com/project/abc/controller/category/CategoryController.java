@@ -1,8 +1,10 @@
 package com.project.abc.controller.category;
 
+import com.project.abc.dto.category.CategoryCountDTO;
 import com.project.abc.dto.category.CategoryDTO;
 import com.project.abc.dto.category.CategorySearchParamDTO;
 import com.project.abc.dto.category.UpdateCategoryDTO;
+import com.project.abc.dto.item.ItemCountDTO;
 import com.project.abc.model.category.Category;
 import com.project.abc.service.category.CategoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -79,5 +81,13 @@ public class CategoryController {
                 categoryPage.getTotalElements()
         );
         return ResponseEntity.ok(categoryDTOPage);
+    }
+
+    @GetMapping("/category-count")
+    public ResponseEntity<CategoryCountDTO> getCategoryCount() {
+        int categoryCount = categoryService.getCategoryCount();
+        CategoryCountDTO categoryCountDTO = new CategoryCountDTO();
+        categoryCountDTO.setCategoryCount(categoryCount);
+        return ResponseEntity.ok(categoryCountDTO);
     }
 }

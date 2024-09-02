@@ -7,6 +7,7 @@ import com.project.abc.dto.order.OrderDTO;
 import com.project.abc.dto.order.OrderDetailDTO;
 import com.project.abc.dto.order.OrderSearchParamDTO;
 import com.project.abc.dto.order.UpdateOrderStatusDTO;
+import com.project.abc.model.category.Category;
 import com.project.abc.model.item.Item;
 import com.project.abc.model.offer.Offer;
 import com.project.abc.model.order.Order;
@@ -132,5 +133,11 @@ public class OrderService {
                 searchParamDTO.getPaymentStatus(),
                 pageable
         );
+    }
+
+    public int getPendingOrderCount() {
+        log.info("get pending order count");
+        int pendingOrderCount = orderRepository.countByStatus(Order.OrderStatus.PENDING);
+        return pendingOrderCount;
     }
 }

@@ -9,6 +9,7 @@ import com.project.abc.commons.exceptions.user.UserExType;
 import com.project.abc.dto.user.UserDTO;
 import com.project.abc.dto.user.UserSearchParamDTO;
 import com.project.abc.dto.user.UserUpdateDTO;
+import com.project.abc.model.order.Order;
 import com.project.abc.model.user.User;
 import com.project.abc.repository.user.UserRepository;
 import javax.transaction.Transactional;
@@ -122,5 +123,11 @@ public class UserService {
                 User.UserRole.STAFF,
                 pageable
         );
+    }
+
+    public int getCustomerCount() {
+        log.info("get customer count");
+        int customerCount = userRepository.countByRole(User.UserRole.CUSTOMER);
+        return customerCount;
     }
 }

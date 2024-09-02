@@ -1,9 +1,7 @@
 package com.project.abc.controller.user;
 
-import com.project.abc.dto.user.UserDTO;
-import com.project.abc.dto.user.UserDetailDTO;
-import com.project.abc.dto.user.UserSearchParamDTO;
-import com.project.abc.dto.user.UserUpdateDTO;
+import com.project.abc.dto.order.OrderCountDTO;
+import com.project.abc.dto.user.*;
 import com.project.abc.model.user.User;
 import com.project.abc.security.Session;
 import com.project.abc.service.user.UserService;
@@ -123,5 +121,13 @@ public class UserController {
                 usersPage.getTotalElements()
         );
         return ResponseEntity.ok(userDetailDTOPage);
+    }
+
+    @GetMapping("/customer-count")
+    public ResponseEntity<CustomerCountDTO> getCustomerCount() {
+        int customerCount = userService.getCustomerCount();
+        CustomerCountDTO customerCountDTO = new CustomerCountDTO();
+        customerCountDTO.setCustomerCount(customerCount);
+        return ResponseEntity.ok(customerCountDTO);
     }
 }
