@@ -63,9 +63,6 @@ public class ItemService {
     public Item updateItem(ItemUpdateDTO itemUpdateDTO, String itemId) {
         log.info("updated item id {}", itemId);
         Item item = this.getItemById(itemId);
-        if (itemRepository.findByItemNameAndStatusNot(itemUpdateDTO.getItemName(), Item.ItemStatus.DELETED).isPresent()) {
-            throw new BadRequestException("item already exist", ItemExType.ITEM_ALREADY_EXIST);
-        }
         item.setItemName(itemUpdateDTO.getItemName());
         item.setDescription(itemUpdateDTO.getDescription());
         item.setUnitPrice(itemUpdateDTO.getUnitPrice());
