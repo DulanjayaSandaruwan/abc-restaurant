@@ -9,10 +9,8 @@ import com.project.abc.commons.exceptions.user.UserExType;
 import com.project.abc.dto.user.UserDTO;
 import com.project.abc.dto.user.UserSearchParamDTO;
 import com.project.abc.dto.user.UserUpdateDTO;
-import com.project.abc.model.order.Order;
 import com.project.abc.model.user.User;
 import com.project.abc.repository.user.UserRepository;
-import javax.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -33,7 +32,7 @@ public class UserService {
     public User registerUser(UserDTO dto) {
         log.info("create user email {}", dto.getEmail());
         User user = User.init(dto);
-        if (userRepository.findByEmailAndStatusNot(dto.getEmail() , User.UserStatus.DELETED).isPresent()) {
+        if (userRepository.findByEmailAndStatusNot(dto.getEmail(), User.UserStatus.DELETED).isPresent()) {
             throw new BadRequestException("email already exist", UserExType.EMAIL_ALREADY_EXIST);
         }
         if (userRepository.findByPhoneAndStatusNot(dto.getPhone(), User.UserStatus.DELETED).isPresent()) {
@@ -78,7 +77,7 @@ public class UserService {
     public User updateUser(UserUpdateDTO updateDTO, String userId) {
         log.info("updated user id {}", userId);
         User user = this.getUserById(userId);
-        if (userRepository.findByEmailAndStatusNot(updateDTO.getEmail() , User.UserStatus.DELETED).isPresent()) {
+        if (userRepository.findByEmailAndStatusNot(updateDTO.getEmail(), User.UserStatus.DELETED).isPresent()) {
             throw new BadRequestException("email already exist", UserExType.EMAIL_ALREADY_EXIST);
         }
         if (userRepository.findByPhoneAndStatusNot(updateDTO.getPhone(), User.UserStatus.DELETED).isPresent()) {
