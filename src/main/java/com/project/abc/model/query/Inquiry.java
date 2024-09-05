@@ -1,6 +1,10 @@
 package com.project.abc.model.query;
 
+import com.project.abc.dto.item.ItemDTO;
 import com.project.abc.dto.query.InquiryDTO;
+import com.project.abc.model.category.Category;
+import com.project.abc.model.item.Item;
+import com.project.abc.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +47,10 @@ public class Inquiry {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public enum InquiryStatus {
         PENDING,
         RESPONDED
@@ -56,5 +64,11 @@ public class Inquiry {
         query.setResponse(dto.getResponse());
         query.setStatus(InquiryStatus.PENDING);
         return query;
+    }
+
+    public static Inquiry initWithUser(InquiryDTO dto, User user) {
+        Inquiry inquiry = Inquiry.init(dto);
+        inquiry.setUser(user);
+        return inquiry;
     }
 }

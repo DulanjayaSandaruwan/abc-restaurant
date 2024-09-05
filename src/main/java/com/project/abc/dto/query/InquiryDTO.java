@@ -1,6 +1,7 @@
 package com.project.abc.dto.query;
 
 import com.project.abc.commons.BaseRequest;
+import com.project.abc.dto.user.UserDTO;
 import com.project.abc.model.query.Inquiry;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,8 @@ public class InquiryDTO extends BaseRequest {
 
     private Inquiry.InquiryStatus status;
 
+    private UserDTO user;
+
     public static InquiryDTO init(Inquiry query) {
         InquiryDTO inquiryDTO = new InquiryDTO();
         inquiryDTO.setId(query.getId());
@@ -32,6 +35,12 @@ public class InquiryDTO extends BaseRequest {
         inquiryDTO.setMessage(query.getMessage());
         inquiryDTO.setResponse(query.getResponse());
         inquiryDTO.setStatus(query.getStatus());
+        return inquiryDTO;
+    }
+
+    public static InquiryDTO initWithUser(Inquiry inquiry) {
+        InquiryDTO inquiryDTO = InquiryDTO.init(inquiry);
+        inquiryDTO.setUser(UserDTO.init(inquiry.getUser()));
         return inquiryDTO;
     }
 }
